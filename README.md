@@ -48,7 +48,7 @@ Transformer使用了encoder-decoder架构，具体来说是将一些self-attenti
 
 对每个子层使用residual connection（残差连接）  
 最后使用layer normalization  
-子层公式：Layer Norm(x+Sub-layer(x))  
+子层公式：![](http://latex.codecogs.com/svg.latex?Layer Norm(x+Sub-layer(x)))  
 把每层输出维度变成512（固定了），调参也就调一个参数就行了，另一个参数是复制多少块N  
 **Decoder：** 由N=6个层构成，与Encoder不一样的地方是它有第三个sub-layer，即Masked Multi-Head Attention  
 >![decoder](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/decoder.jpg)  
@@ -67,7 +67,7 @@ output是values的一个加权和，故output和values的维度是一样的
 相似度（compatibility function）不同的注意力机制有不同的算法  
     
 ### Scaled Dot-Product Attention（Transformer自己用到的注意力机制）  
-queries和keys等长，都等于$d_k$，values长为$d_v$  
+queries和keys等长，都等于![](http://latex.codecogs.com/svg.latex?d_k)，values长为![](http://latex.codecogs.com/svg.latex?d_v)  
 具体计算：对每个query和key做内积，作为相似度  
 如果两个向量的nove是一样的，内积越大，相似度越高（等于0，向量正交，没有相似度）  
 再除以![](http://latex.codecogs.com/svg.latex?\sqrt{d_k})，再用softmax来得到权重（得到n个非负的，加起来和为1的权重，再作用到value上就得到输出了）  
@@ -80,10 +80,10 @@ Scaled Dot-Product Attention和别的注意力机制的区别
 dot-product（multi-plicative）点积的注意力机制
 
 （点乘机制会更高效）  
->当$d_k$不大时，除不除都无所谓  
-当$d_k$比较大，两个向量长度都很长，做点积的时候值会比较大或比较小，会造成偏激的结果，向两端靠拢，这时梯度会很小，跑不动  
+>当![](http://latex.codecogs.com/svg.latex?d_k)不大时，除不除都无所谓  
+当![](http://latex.codecogs.com/svg.latex?d_k)比较大，两个向量长度都很长，做点积的时候值会比较大或比较小，会造成偏激的结果，向两端靠拢，这时梯度会很小，跑不动  
 
-对于t时刻的$q_t$，应该只去看$k_1,k_2,...,k_{k-1}$，而不去看$k_t$和$k_t$以后的东西，因为当前时刻还没有在注意力机制中，$k_t$会对所有keys全部做运算，不用到后面的东西就行了  
+对于![](http://latex.codecogs.com/svg.latex?t)时刻的![](http://latex.codecogs.com/svg.latex?q_t)，应该只去看![](http://latex.codecogs.com/svg.latex?k_1,k_2,...,k_{k-1})，而不去看$k_t$和$k_t$以后的东西，因为当前时刻还没有在注意力机制中，$k_t$会对所有keys全部做运算，不用到后面的东西就行了  
 **Mask：** 对于$q_t$和$k_t$之后计算的值换成一个非常大的负数，在softmax后会变成0
 ![ScaledDot-ProductAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/ScaledDot-ProductAttention.jpg)  
 
