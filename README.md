@@ -48,7 +48,7 @@ Transformer使用了encoder-decoder架构，具体来说是将一些self-attenti
 
 对每个子层使用residual connection（残差连接）  
 最后使用layer normalization  
-子层公式：![](http://latex.codecogs.com/svg.latex?Layer Norm(x+Sub-layer(x)))  
+子层公式：Layer Norm(x+Sub-layer(x))  
 把每层输出维度变成512（固定了），调参也就调一个参数就行了，另一个参数是复制多少块N  
 **Decoder：** 由N=6个层构成，与Encoder不一样的地方是它有第三个sub-layer，即Masked Multi-Head Attention  
 >![decoder](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/decoder.jpg)  
@@ -94,9 +94,9 @@ dot-product（multi-plicative）点积的注意力机制
 为了实现不一样的模式，会使用不一样的计算相似度的办法  
 给h次机会，希望投影的时候能学到不一样的投影方法，使得在投影进去的度量空间里面能够去匹配不同模式需要的相似函数，最后并一起再做投影  
 MultiHead(Q,K,V)=Concat(![](http://latex.codecogs.com/svg.latex?head_1,...,head_h) )![](http://latex.codecogs.com/svg.latex?W^O), where ![](http://latex.codecogs.com/svg.latex?head_i)=Attention(![](http://latex.codecogs.com/svg.latex?QW_i^Q,KW_i^K,VW_i^V) ) 
-**输出：** 不同的头输出concat起来，再投影到$W^O$里面  
+**输出：** 不同的头输出concat起来，再投影到![](http://latex.codecogs.com/svg.latex?W^O)里面  
 对每个head：把Q，K，V通过不同的、可以学习的W投影到低维上面，再做注意力机制  
-**实际上：** h=8（即8个头）投影的是输出的维度除以h（$d_k=d_v=\frac{d_{model}}{h}$即$\frac{512}{8}=64$）  
+**实际上：** h=8（即8个头）投影的是输出的维度除以h（![](http://latex.codecogs.com/svg.latex?d_k=d_v=\frac{d_{model}}{h})即![](http://latex.codecogs.com/svg.latex?\frac{512}{8}=64)）  
 
 ### 在Transformer中如何使用注意力机制  
 ![applyAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/applyAttention.jpg)  
