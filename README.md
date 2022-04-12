@@ -2,6 +2,7 @@
 **阅读地址：** [Attention Is All You Need](https://readpaper.com/paper/2963403868)  
 **推荐学习视频：** [Transformer论文逐段精读【论文精读】](https://www.bilibili.com/video/BV1pu411o7BE?spm_id_from=333.999.0.0)  
 **被引用次数：**  
+**官方开源：** [tensor2tensor](https://github.com/tensorflow/tensor2tensor)
 
 ### Transformer的价值  
 开创了继MLP、CNN、RNN之后的第四大类深度学习模型，泛用能力很强，在NLP和CV领域均有很大作用  
