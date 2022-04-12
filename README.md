@@ -131,10 +131,10 @@ Attention对模型的假设更少，导致需要很多的数据，模型才能�
 
 ### Optimizer训练器  
 使用Adam Optimizer，学习率计算方法为：  
-![](http://latex.codecogs.com/svg.latex?lrate=d_{model}^{-0.5}\cdot {\min (step\_num^{-0.5},step\_num\cdot warmup\_steps^{-1.5}\)} )    
+![lrate](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/lrate.png)    
 
 ### 正则化  
 **Residual Dropout：** 对每个子层的输出上，在进入残差连接之前使用了一个dropout  
-![](http://latex.codecogs.com/svg.latex?P_{drop}=0.1)（即给10%的元素值权重![](http://latex.codecogs.com/svg.latex?\times 0)）  
+![](http://latex.codecogs.com/svg.latex?P_{drop}=0.1)（即给10%的元素值权重x0）  
 **Label Smoothing：** 用Softmax学习一个东西时，标号正确的是1，错误的是0  
 ![](http://latex.codecogs.com/svg.latex?\epsilon_{ls}=0.1)：表示对于正确的值，只要求Softmax输出值为0.1，这样会使不确信度增加
