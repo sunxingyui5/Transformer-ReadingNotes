@@ -34,27 +34,24 @@ CNN比较好的地方是可以做多个输出通道，即它可以识别多种�
 decoder拿到encoder的输出，会生成一个长为m的序列(y_1,y_2,...,y_m)，n和m不一样长，编码时可以一次性给你，解码时只能一个个生成（auto-regressive模型）  
 
 Transformer使用了encoder-decoder架构，具体来说是将一些self-attention，point-wise，fully connection堆在一起的  
-![Transformer](Transformer.jpg)  
+![Transformer](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/Transformer.jpg)  
 
 ### Encoder and Decoder Stacks  
 **Input Embedding：** 输入经过一个 Embedding层, 一个词进来之后表示成一个向量  
 得到的向量值会和 Positional Encoding相加  
-**Encoder：** 重复六个layers，每个layers会有两个sub-layers$$ \left\{
-\begin{matrix}
- multi-head、self-attention \\
-    \\
- position-wise、fully connection、feed-forward network（就是MLP） 
-\end{matrix}
-\right.
-$$   
->![layers](layers.png)
+**Encoder：** 重复六个layers，每个layers会有两个sub-layers
+>multi-head、self-attention 
+>    
+> position-wise、fully connection、feed-forward network（就是MLP）  
+
+![layers](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/layers.png)
 
 对每个子层使用residual connection（残差连接）  
 最后使用layer normalization  
 子层公式：Layer Norm(x+Sub-layer(x))  
 把每层输出维度变成512（固定了），调参也就调一个参数就行了，另一个参数是复制多少块N  
 **Decoder：** 由N=6个层构成，与Encoder不一样的地方是它有第三个sub-layer，即Masked Multi-Head Attention  
->![decoder](decoder.jpg)  
+>![decoder](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/decoder.jpg)  
 
 对每个子层使用residual connection（残差连接）  
 最后使用layer normalization   
@@ -76,7 +73,7 @@ queries和keys等长，都等于$d_k$，values长为$d_v$
 再除以$\sqrt{d_k}$，再用softmax来得到权重（得到n个非负的，加起来和为1的权重，再作用到value上就得到输出了）  
 原因：防止softmax函数的梯度消失  
 queries可以写成矩阵Q  
->![queries](queries.jpg)
+>![queries](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/queries.jpg)
 
 Scaled Dot-Product Attention和别的注意力机制的区别
 >additive：加性注意力机制，可以处理queries和keys不等长的情况  
@@ -88,12 +85,12 @@ dot-product（multi-plicative）点积的注意力机制
 
 对于t时刻的$q_t$，应该只去看$k_1,k_2,...,k_{k-1}$，而不去看$k_t$和$k_t$以后的东西，因为当前时刻还没有在注意力机制中，$k_t$会对所有keys全部做运算，不用到后面的东西就行了  
 **Mask：** 对于$q_t$和$k_t$之后计算的值换成一个非常大的负数，在softmax后会变成0
-![ScaledDot-ProductAttention](ScaledDot-ProductAttention.jpg)  
+![ScaledDot-ProductAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/ScaledDot-ProductAttention.jpg)  
 
 ### Multi-Head Attention  
 **思路：** 与其做一个单个的注意力函数，不如把整个queries，keys，values投影到低维，投影h次，然后再做h次的注意力函数  
 把每个函数输出并在一起，再投影回来会得到最终的输出
-![Multi-HeadAttention](Multi-HeadAttention.png)
+![Multi-HeadAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/Multi-HeadAttention.png)
 为了实现不一样的模式，会使用不一样的计算相似度的办法  
 给h次机会，希望投影的时候能学到不一样的投影方法，使得在投影进去的度量空间里面能够去匹配不同模式需要的相似函数，最后并一起再做投影  
 $MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O\space, where\space head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)$  
@@ -102,13 +99,13 @@ $MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O\space, where\space head_i=Attenti
 **实际上：** h=8（即8个头）投影的是输出的维度除以h（$d_k=d_v=\frac{d_{model}}{h}$即$\frac{512}{8}=64$）  
 
 ### 在Transformer中如何使用注意力机制  
-![applyAttention](applyAttention.jpg)  
+![applyAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/applyAttention.jpg)  
 
 ### Position-wise Feed-Forward Networks（就是一个MLP）  
 把MLP对每个词都走一次，对每个词作同样的MLP  
 ![FFN.jpg](FFN.jpg)  
 简单的实现思路案例  
-![attention](attention.jpg)  
+![attention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/attention.jpg)  
 
 ### Embedding层和Softmax层  
 **Embedding：** 将输入的一个词映射成为一个长为d的向量来表示整个词（此处d=512）  
@@ -125,11 +122,11 @@ Attention输出是不会有时序信息的
 
 用长为512的向量来表示一个数，用周期不一样的sin和cos值算出来  
 和Embedding相加，就可以完成把时序信息加入输入的做法
-![PositionEncoding](PositionEncoding.jpg)  
+![PositionEncoding](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/PositionEncoding.jpg)  
 
 ### Self-Attention为什么好  
 相对于循环层和卷积层，用自注意力机制更好
-![whyAttention](whyAttention.jpg)
+![whyAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/whyAttention.jpg)
 Attention对模型的假设更少，导致需要很多的数据，模型才能训练出来  
 
 ### Optimizer训练器  
