@@ -15,7 +15,7 @@ Attention用了一个更广泛的归纳偏置，使得它能处理更一般化�
 模型性能上更好，并行度更好，在机器翻译任务上达到了非常好的效果  
 
 ### 简介  
-RNN：输入一个序列，把这个序列从左往右地往前做，对第$t$个词会计算一个输出$h_t$（也叫隐藏状态），由第$t$个词本身和$h_{t-1}$共同决定的  
+RNN：输入一个序列，把这个序列从左往右地往前做，对第![](http://latex.codecogs.com/svg.latex?t)个词会计算一个输出![](http://latex.codecogs.com/svg.latex?h_t)（也叫隐藏状态），由第$t$个词本身和$h_{t-1}$共同决定的  
 > 问题：无法并行计算，下一个输出极度依赖上一步结果，计算上性能差，内存开销大  
 最近的工作通过 factorization 分解 tricks 和 conditional computation 并行化来提升计算效率，但sequential computation的问题本质依然存在
 
