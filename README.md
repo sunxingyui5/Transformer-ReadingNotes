@@ -1,0 +1,2 @@
+# Transformer-ReadingNotes
+本项目为个人对Transformer原论文阅读笔记的markdown版本
