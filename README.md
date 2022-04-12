@@ -30,8 +30,8 @@ CNN比较好的地方是可以做多个输出通道，即它可以识别多种�
 
 ### 模型架构  
 现有的序列模型里，比较好的是encoder-decoder架构  
-> encoder将一个长为n的输入（如句子）：![](http://latex.codecogs.com/svg.latex? \( x_1, x_2,...,x_n \))映射成![](http://latex.codecogs.com/svg.latex?Z=(z_1, z_2,..., z_n))，输入x_t对应机器学习可以理解的向量z_t \\
-decoder拿到encoder的输出，会生成一个长为m的序列(y_1,y_2,...,y_m)，n和m不一样长，编码时可以一次性给你，解码时只能一个个生成（auto-regressive模型）  
+> encoder将一个长为n的输入（如句子）：(x1, x2,...,xn)映射成Z=(z1, z2,..., zn))，输入![](http://latex.codecogs.com/svg.latex?x_t)对应机器学习可以理解的向量![](http://latex.codecogs.com/svg.latex?z_t) 
+decoder拿到encoder的输出，会生成一个长为m的序列(y1,y2,...,ym)，n和m不一样长，编码时可以一次性给你，解码时只能一个个生成（auto-regressive模型）  
 
 Transformer使用了encoder-decoder架构，具体来说是将一些self-attention，point-wise，fully connection堆在一起的  
 ![Transformer](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/Transformer.jpg)  
@@ -70,7 +70,7 @@ output是values的一个加权和，故output和values的维度是一样的
 queries和keys等长，都等于$d_k$，values长为$d_v$  
 具体计算：对每个query和key做内积，作为相似度  
 如果两个向量的nove是一样的，内积越大，相似度越高（等于0，向量正交，没有相似度）  
-再除以$\sqrt{d_k}$，再用softmax来得到权重（得到n个非负的，加起来和为1的权重，再作用到value上就得到输出了）  
+再除以![](http://latex.codecogs.com/svg.latex?\sqrt{d_k})，再用softmax来得到权重（得到n个非负的，加起来和为1的权重，再作用到value上就得到输出了）  
 原因：防止softmax函数的梯度消失  
 queries可以写成矩阵Q  
 >![queries](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/queries.jpg)
