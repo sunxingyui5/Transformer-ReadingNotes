@@ -83,17 +83,17 @@ dot-product（multi-plicative）点积的注意力机制
 >当![](http://latex.codecogs.com/svg.latex?d_k)不大时，除不除都无所谓  
 当![](http://latex.codecogs.com/svg.latex?d_k)比较大，两个向量长度都很长，做点积的时候值会比较大或比较小，会造成偏激的结果，向两端靠拢，这时梯度会很小，跑不动  
 
-对于![](http://latex.codecogs.com/svg.latex?t)时刻的![](http://latex.codecogs.com/svg.latex?q_t)，应该只去看![](http://latex.codecogs.com/svg.latex?k_1,k_2,...,k_{k-1})，而不去看$k_t$和$k_t$以后的东西，因为当前时刻还没有在注意力机制中，$k_t$会对所有keys全部做运算，不用到后面的东西就行了  
-**Mask：** 对于$q_t$和$k_t$之后计算的值换成一个非常大的负数，在softmax后会变成0
+对于![](http://latex.codecogs.com/svg.latex?t)时刻的![](http://latex.codecogs.com/svg.latex?q_t)，应该只去看![](http://latex.codecogs.com/svg.latex?k_1,k_2,...,k_{k-1})，而不去看![](http://latex.codecogs.com/svg.latex?k_t)和![](http://latex.codecogs.com/svg.latex?k_t)以后的东西，因为当前时刻还没有在注意力机制中，![](http://latex.codecogs.com/svg.latex?k_t)会对所有keys全部做运算，不用到后面的东西就行了  
+**Mask：** 对于![](http://latex.codecogs.com/svg.latex?q_t)和![](http://latex.codecogs.com/svg.latex?k_t)之后计算的值换成一个非常大的负数，在softmax后会变成0
 ![ScaledDot-ProductAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/ScaledDot-ProductAttention.jpg)  
 
 ### Multi-Head Attention  
-**思路：** 与其做一个单个的注意力函数，不如把整个queries，keys，values投影到低维，投影h次，然后再做h次的注意力函数  
+**思路：** 与其做一个单个的注意力函数，不如把整个queries，keys，values投影到低维，投影![](http://latex.codecogs.com/svg.latex?h)次，然后再做![](http://latex.codecogs.com/svg.latex?h)次的注意力函数  
 把每个函数输出并在一起，再投影回来会得到最终的输出
 ![Multi-HeadAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/Multi-HeadAttention.png)
 为了实现不一样的模式，会使用不一样的计算相似度的办法  
 给h次机会，希望投影的时候能学到不一样的投影方法，使得在投影进去的度量空间里面能够去匹配不同模式需要的相似函数，最后并一起再做投影  
-$MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O\space, where\space head_i=Attention(QW_i^Q,KW_i^K,VW_i^V)$  
+![](http://latex.codecogs.com/svg.latex?MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O\space, where\space head_i=Attention(QW_i^Q,KW_i^K,VW_i^V))  
 **输出：** 不同的头输出concat起来，再投影到$W^O$里面  
 对每个head：把Q，K，V通过不同的、可以学习的W投影到低维上面，再做注意力机制  
 **实际上：** h=8（即8个头）投影的是输出的维度除以h（$d_k=d_v=\frac{d_{model}}{h}$即$\frac{512}{8}=64$）  
