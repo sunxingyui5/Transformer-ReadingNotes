@@ -93,7 +93,7 @@ dot-product（multi-plicative）点积的注意力机制
 ![Multi-HeadAttention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/Multi-HeadAttention.png)
 为了实现不一样的模式，会使用不一样的计算相似度的办法  
 给h次机会，希望投影的时候能学到不一样的投影方法，使得在投影进去的度量空间里面能够去匹配不同模式需要的相似函数，最后并一起再做投影  
-![](http://latex.codecogs.com/svg.latex?MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O\space, where\space head_i=Attention(QW_i^Q,KW_i^K,VW_i^V))  
+MultiHead(Q,K,V)=Concat(![](http://latex.codecogs.com/svg.latex?head_1,...,head_h) )![](http://latex.codecogs.com/svg.latex?W^O), where ![](http://latex.codecogs.com/svg.latex?head_i)=Attention(![](http://latex.codecogs.com/svg.latex?QW_i^Q,KW_i^K,VW_i^V) ) 
 **输出：** 不同的头输出concat起来，再投影到$W^O$里面  
 对每个head：把Q，K，V通过不同的、可以学习的W投影到低维上面，再做注意力机制  
 **实际上：** h=8（即8个头）投影的是输出的维度除以h（$d_k=d_v=\frac{d_{model}}{h}$即$\frac{512}{8}=64$）  
