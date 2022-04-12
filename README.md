@@ -103,7 +103,7 @@ $MultiHead(Q,K,V)=Concat(head_1,...,head_h)W^O\space, where\space head_i=Attenti
 
 ### Position-wise Feed-Forward Networks（就是一个MLP）  
 把MLP对每个词都走一次，对每个词作同样的MLP  
-![FFN.jpg](FFN.jpg)  
+![FFN.jpg](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/FFN.jpg)  
 简单的实现思路案例  
 ![attention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/attention.jpg)  
 
