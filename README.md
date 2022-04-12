@@ -108,17 +108,17 @@ MultiHead(Q,K,V)=Concat(![](http://latex.codecogs.com/svg.latex?head_1,...,head_
 ![attention](https://github.com/sunxingyui5/Transformer-ReadingNotes/blob/main/img/attention.jpg)  
 
 ### Embedding层和Softmax层  
-**Embedding：** 将输入的一个词映射成为一个长为d的向量来表示整个词（此处d=512）  
+**Embedding：** 将输入的一个词映射成为一个长为d的向量来表示整个词（此处![](http://latex.codecogs.com/svg.latex?d=512)）  
 encoder和decoder的输入都有一个Embedding，在Softmax前也有一个Embedding  
 上述三个Embedding共享权重，训练起来更简单  
-将权重乘以$\sqrt{d_{model}}$即$\sqrt{512}$，学习Embedding 的时候，会把每一个向量的$L_2Norm$学的比较小  
+将权重乘以![](http://latex.codecogs.com/svg.latex?\sqrt{d_{model}})即![](http://latex.codecogs.com/svg.latex?\sqrt{512})，学习Embedding 的时候，会把每一个向量的![](http://latex.codecogs.com/svg.latex?L_2Norm)学的比较小  
 维度大的话，学到的一些权重值就会变小，但之后还需要加上Positional Encoding（不会随着维度的增加而变化）   
 
 ### Position Encoding  
 Attention输出是不会有时序信息的  
 所以要在Attention的输入里面加入时序信息（如把位置i加入输入）  
->$PE(pos,2i)=\sin (pos/10000^{2i/d_{model}})$  
->$PE(pos,2i+1)=\cos (pos/10000^{2i/d_{model}})$  
+>PE(pos,2i)=sin(pos/![](http://latex.codecogs.com/svg.latex?10000^{2i/d_{model}}) )  
+>PE(pos,2i+1)=cos(pos/![](http://latex.codecogs.com/svg.latex?10000^{2i/d_{model}}) )  
 
 用长为512的向量来表示一个数，用周期不一样的sin和cos值算出来  
 和Embedding相加，就可以完成把时序信息加入输入的做法
@@ -131,10 +131,10 @@ Attention对模型的假设更少，导致需要很多的数据，模型才能�
 
 ### Optimizer训练器  
 使用Adam Optimizer，学习率计算方法为：  
-$lrate=d_{model}^{-0.5}\cdot {\min (step\_num^{-0.5},step\_num\cdot warmup\_steps^{-1.5})}$    
+![](http://latex.codecogs.com/svg.latex?lrate=d_{model}^{-0.5}\cdot {\min (step\_num^{-0.5},step\_num\cdot warmup\_steps^{-1.5}\)} )    
 
 ### 正则化  
 **Residual Dropout：** 对每个子层的输出上，在进入残差连接之前使用了一个dropout  
-$P_{drop}=0.1$（即给10%的元素值权重$\times 0$）  
+![](http://latex.codecogs.com/svg.latex?P_{drop}=0.1)（即给10%的元素值权重![](http://latex.codecogs.com/svg.latex?\times 0)）  
 **Label Smoothing：** 用Softmax学习一个东西时，标号正确的是1，错误的是0  
-$\epsilon_{ls}=0.1$：表示对于正确的值，只要求Softmax输出值为0.1，这样会使不确信度增加
+![](http://latex.codecogs.com/svg.latex?\epsilon_{ls}=0.1)：表示对于正确的值，只要求Softmax输出值为0.1，这样会使不确信度增加
